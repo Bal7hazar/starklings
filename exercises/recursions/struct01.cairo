@@ -9,8 +9,6 @@
 # It is also worth noting that a struct pointer implicitely casts to a felt pointer
 # (eg. Foo* is automatically casted to felt*)
 
-# I AM NOT DONE
-
 struct Vector2D:
     member x : felt
     member y : felt
@@ -28,6 +26,16 @@ end
 #   - the squared magnitude of a 3D vector (x,y,z) is x * x + y * y + z * z.
 func squared_magnitude(struct_value : felt*, struct_size : felt) -> (res : felt):
     # FILL ME
+
+    if struct_size == 0:
+        # Start with sum=0.
+        return (res=0)
+    end
+
+    # If length is NOT zero, then the function calls itself again, by moving forward one slot
+    let (current_sum) = squared_magnitude(struct_value + 1, struct_size - 1)
+    let res = struct_value[0] * struct_value[0] + current_sum
+    return (res)
 end
 
 # TESTS #

@@ -1,7 +1,5 @@
 %lang starknet
 
-# I AM NOT DONE
-
 # Resource
 # https://www.cairo-lang.org/docs/how_cairo_works/functions.html#function-arguments-and-return-values
 
@@ -11,6 +9,8 @@
 func assert_is_42(n : felt):
     # [ap - 3] = 42
     # ret
+    assert n = 42
+    return ()
 end
 
 # TODO
@@ -18,6 +18,8 @@ end
 @external
 func sum(a : felt, b : felt) -> (s : felt):
     # return (a + b)
+    [ap] = [fp - 3] + [fp - 4]; ap++
+    ret
 end
 
 #########
@@ -34,11 +36,6 @@ end
 func test_assert_is_42_ko():
     %{ expect_revert() %}
     assert_is_42(21)
-    return ()
-end
-
-@external
-func test_sum():
     let (s) = sum(2, 3)
     assert s = 5
     return ()
